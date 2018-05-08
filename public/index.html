@@ -37,7 +37,7 @@
                         <div class="input-group-append">
                                 <button type="submit" class="btn btn-primary">
                                         Submit
-                                    </button>
+                                </button>
                         </div>
                     </div>
                     <div class="alert alert-info mt-2">
@@ -51,36 +51,26 @@
         <div class="card mt-4 collapse" id="step2">
             <div class="card-body">
                 <h2 class="card-title" data-toggle="collapse" data-target="#stepTwoCollapse">Step 2</h2>
-                <div class="collapse show" id="stepTwoCollapse">
-                    <form method="POST" action="getAccessToken" id="getAccessTokenForm">
+                <p class="lead">
+                    Enter your SmartThings SmartApp Client Secret.  
+                </p>
+                <form method="POST" action="getAccessToken" id="getAccessTokenForm">
+                        <input name="client_id" type="hidden" id="step2ClientId" required />
+                        <input name="code" type="hidden" id="step2Code" required placeholder="The Code retrieved from Step 1" />
+                        <input name="redirect_uri" type="hidden" id="step2RedirectUri"  />
 
-                        <div class="form-group">
-                            <label for="step2ClientId">Client Id</label>
-                            <input name="client_id" type="text" class="form-control" id="step2ClientId" required placeholder="The OAuth client ID of the SmartApp.">
-                        </div>
-
-                        <div class="form-group">
-                                <label for="step2ClientSecret">Client Secret</label>
-                                <input name="client_secret" type="text" class="form-control" id="step2ClientSecret" required placeholder="The OAuth client secret of the SmartApp.">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="step2Code">Client Secret</label>
-                            <input name="code" type="text" class="form-control" id="step2Code" required placeholder="The Code retrieved from Step 1">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="step2RedirectUri">Redirect URI</label>
-                            <input name="redirect_uri" type="text" class="form-control" id="step2RedirectUri" >
-                        </div>
-
-                        <div>
-                            <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="input-group">
+                            <div class="input-group-prepend">
+                                    <label class="input-group-text" for="step2ClientSecret">Client Secret</label>
+                            </div>
+                            <input name="client_secret" type="text" class="form-control" id="step2ClientSecret" required placeholder="The OAuth client secret of the SmartApp." />
+                            <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                            Submit
+                                    </button>
+                            </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -89,13 +79,13 @@
                 <h2 class="card-title">Results</h3>
                 <div class="form-group">
                     <label for="resultsAccessToken">Access Token</label>
-                    <textarea class="form-control" id="resultsAccessToken"></textarea>
+                    <textarea class="form-control" readonly id="resultsAccessToken"></textarea>
                     <small class="form-text text-muted">Store this in a secure location.</small>
                 </div>
                 
                 <div class="form-group">
                     <label for="resultsEndpoints">Endpoints</label>
-                    <textarea class="form-control" id="resultsEndpoints"></textarea>
+                    <textarea class="form-control" readonly id="resultsEndpoints"></textarea>
                 </div>
             </div>
         </div>
