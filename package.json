@@ -1,0 +1,29 @@
+{
+  "name": "smartthings-smartapp-oauth-helper",
+  "version": "1.0.0",
+  "description": "SmartThings SmartApp OAuth Helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrettSheleski/SmartThings-SmartApp-OAuth-Helper.git"
+  },
+  "keywords": [
+    "SmartThings",
+    "SmartApp",
+    "Oauth"
+  ],
+  "author": "Brett Sheleski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrettSheleski/SmartThings-SmartApp-OAuth-Helper/issues"
+  },
+  "homepage": "https://github.com/BrettSheleski/SmartThings-SmartApp-OAuth-Helper#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "request": "^2.85.0"
+  }
+}
