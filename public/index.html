@@ -6,49 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="index.css"  />
 
     <title>SmartThings SmartApp OAuth Helper</title>
   </head>
   <body>
-    <h1>SmartThings SmartApp OAuth Helper</h1>
-
     <main class="container">
+        <h1>SmartThings SmartApp OAuth Helper</h1>
 
-        <div class="card">
+        <div class="card collapse show" id="step1">
             <div class="card-body">
-                <h1 class="card-title" data-toggle="collapse" data-target="#stepOneCollapse">Step 1</h1>
-                <div class="collapse show" id="stepOneCollapse">
+                <h2 class="card-title" data-toggle="collapse">Step 1</h1>
+                <p class="lead">
+                    Enter your SmartThings SmartApp Client ID below.  
+                </p>
+               
+                <form method="GET" action="https://graph.api.smartthings.com/oauth/authorize">
+                    <input type="hidden" name="response_type" value="code" />
+                    <input type="hidden" name="scope" value="app" />
+                    <input type="hidden" name="redirect_uri" value="" class="redirectUriInput" />
 
-                    <form method="GET" action="https://graph.api.smartthings.com/oauth/authorize">
-                            <input type="hidden" name="response_type" value="code" />
-                            <input type="hidden" name="scope" value="app" />
-                            <input type="hidden" name="redirect_uri" value="" class="redirectUriInput" />
 
-
-                            <div class="form-group">
-                                <label for="step1ClientId">Client Id</label>
-                                <input name="client_id" type="text" class="form-control" id="step1ClientId" required placeholder="The OAuth client ID of the SmartApp.">
-                            </div>
-
-                            <div>
+                    <div class="input-group">
+                        
+                        <div class="input-group-prepend">
+                                <label class="input-group-text" for="step1ClientId">Client Id</label>
+                        </div>
+                        <input name="client_id" type="text" class="form-control" id="step1ClientId" required placeholder="The OAuth client ID of the SmartApp.">
+                        <div class="input-group-append">
                                 <button type="submit" class="btn btn-primary">
-                                    Submit
-                                </button>
-                            </div>
-                    </form>
-                </div>
+                                        Submit
+                                    </button>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-2">
+                            <p>Submitting the form will bring you to SmartThings website for you to authenticate and grant access to the SmartApp and any devices it is assigned.</p>
+                            <p>After authorizing the request, you will be returned to this page.</p>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card mt-4 collapse" id="step2">
             <div class="card-body">
                 <h2 class="card-title" data-toggle="collapse" data-target="#stepTwoCollapse">Step 2</h2>
-                <div class="collapse" id="stepTwoCollapse">
-                    <form method="POST" action="getAccessToken">
-                        <input type="hidden" name="code" value="app" />
-                        <input type="hidden" name="redirect_uri" value="" />
-
+                <div class="collapse show" id="stepTwoCollapse">
+                    <form method="POST" action="getAccessToken" id="getAccessTokenForm">
 
                         <div class="form-group">
                             <label for="step2ClientId">Client Id</label>
@@ -58,7 +62,17 @@
                         <div class="form-group">
                                 <label for="step2ClientSecret">Client Secret</label>
                                 <input name="client_secret" type="text" class="form-control" id="step2ClientSecret" required placeholder="The OAuth client secret of the SmartApp.">
-                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="step2Code">Client Secret</label>
+                            <input name="code" type="text" class="form-control" id="step2Code" required placeholder="The Code retrieved from Step 1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="step2RedirectUri">Redirect URI</label>
+                            <input name="redirect_uri" type="text" class="form-control" id="step2RedirectUri" >
+                        </div>
 
                         <div>
                             <button type="submit" class="btn btn-primary">
@@ -70,7 +84,28 @@
             </div>
         </div>
 
+        <div class="card mt-4 collapse" id="results">
+            <div class="card-body">
+                <h2 class="card-title">Results</h3>
+                <div class="form-group">
+                    <label for="resultsAccessToken">Access Token</label>
+                    <textarea class="form-control" id="resultsAccessToken"></textarea>
+                    <small class="form-text text-muted">Store this in a secure location.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resultsEndpoints">Endpoints</label>
+                    <textarea class="form-control" id="resultsEndpoints"></textarea>
+                </div>
+            </div>
+        </div>
 
+
+        <div class="text-center mt-4">
+            <a class="btn btn-lg btn-secondary" href=".">
+                Start Over
+            </a>
+        </div>
     </main>
 
 
@@ -81,26 +116,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-
-        function getQueryParameters(str) {
-            return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
-        }
-
-        $(function(){
-            $("input[name='redirect_uri']").val(window.location.href)
-
-            var qparms = getQueryParameters();
-            var refParms = getQueryParameters(window.referrer);
-
-            if (refParms.client_id){
-                $("input[name='client_id']").val(refParms.client_id);
-            }
-            
-            if (qparms.code){
-                $("input[name='code']").val(qparms.code);
-            }
-        });
-    </script>
+    <script src="index.js" type="text/javascript"></script>
   </body>
 </html>

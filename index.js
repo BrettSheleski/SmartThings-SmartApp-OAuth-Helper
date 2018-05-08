@@ -38,7 +38,39 @@ app.post('/getAccessToken', function(req, res){
         body: formData,
         method: 'POST'
       }, function (err, res2, body) {
-          res.send(body);
+
+        var smartthingsInfo = {
+            access_token : null,
+            endpoints : []
+        };
+
+        try{
+            smartthingsInfo.access_token = JSON.parse(body);
+        }
+        catch(ex){
+            res.setHeader('Content-Type', 'application/json');
+            res.status(500).send(JSON.stringify({error : ex}))
+            return;
+        }
+
+        var smartthingsInfo = {
+            access_token : JSON.parse(body),
+            endpoints : []
+        };
+
+        request({
+            headers : {
+                'Authorization' : "Bearer " + smartthingsInfo.access_token.access_token
+            },
+            url : "https://graph.api.smartthings.com/api/smartapps/endpoints",
+            method : 'GET'
+
+        }, function(err, res2, body){
+            smartthingsInfo.endpoints = JSON.parse(body);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(smartthingsInfo));
+        });
       });
 });
 
